@@ -8,16 +8,20 @@ public class AddUsersToRepositoriesXml{
 
     public String wXML(reposMap, xmlFileContent){
         
-        def xmlParsed = new XmlSlurper().parseText( xmlFileContent )
+        def xmlParsed = new XmlSlurper(false, true).parseText( xmlFileContent )
         
-        def newPerm =   { 
+        def fragmentToAdd =   { 
             permission {
                 name("cedric")
                 groupPermission("false")
                 type("OWNER")
             }
         }        
-        xmlParsed.appendNode { newPerm }
+        //xmlParsed.find { it.name() == 'permissions' }.children().add( 0, fragmentToAdd )
+        xmlParsed.repositories.repository.permissions.appendNode( fragmentToAdd )
+        
+        println XmlUtil.serialize(xmlParsed)
+        println "^^^^^"
         return XmlUtil.serialize(xmlParsed)
         
 //        println XmlUtil.serialize( xmlParsed )
