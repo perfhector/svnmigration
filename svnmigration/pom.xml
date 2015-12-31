@@ -19,6 +19,7 @@
     
     
     <build>
+        <sourceDirectory>src/main/groovy</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
