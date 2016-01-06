@@ -25,12 +25,9 @@ public class AddUsersToRepositoriesXml{
             String reponame=it.name
             //println "get repo from name("+it.name+"-»"+reposMap.find(reponame)
             println "get repo from name("+it.name+"--»"+reposMap[reponame]
-        }
-        reposMap.each { login, perm ->
-            
-            println login
-            println perm
-            perm.each() { k,v ->
+            def login=reposMap[reponame]
+       
+        reposMap[reponame].each { k,v ->
                 println "k=$k,v=$v"
                 def fragmentToAdd =   { 
                     permission {
@@ -41,7 +38,7 @@ public class AddUsersToRepositoriesXml{
                 }
                 xmlParsed.repositories.repository.permissions.appendNode( fragmentToAdd )
             }
-        }    
+        }  
         return XmlUtil.serialize(xmlParsed)
         
     }
