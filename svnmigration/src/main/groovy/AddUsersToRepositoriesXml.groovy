@@ -23,12 +23,13 @@ public class AddUsersToRepositoriesXml{
         println "reposMap----»"+reposMap
         xmlParsed.repositories.repository.each(){
             String reponame=it.name
+            println "treating xmlrepo:$reponame"
             //println "get repo from name("+it.name+"-»"+reposMap.find(reponame)
             println "get repo from name("+it.name+"--»"+reposMap[reponame]
             def login=reposMap[reponame]
        
         reposMap[reponame].each { k,v ->
-                println "k=$k,v=$v"
+                println "{[$reponame]k=$k,v=$v}"
                 def fragmentToAdd =   { 
                     permission {
                         name(k)
@@ -36,7 +37,10 @@ public class AddUsersToRepositoriesXml{
                         type(v)
                     }
                 }
-                xmlParsed.repositories.repository.permissions.appendNode( fragmentToAdd )
+                println "inserting xml"
+                def nodeRepo = xmlParsed.repositories.repository.find{ it.name == reponame }
+                //xmlParsed.repositories.repository.permissions.appendNode( fragmentToAdd )
+                nodeRepo.permissions.appendNode( fragmentToAdd )
             }
         }  
         return XmlUtil.serialize(xmlParsed)
