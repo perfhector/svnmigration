@@ -1,7 +1,5 @@
 /* be aware it rewrites the whole xml file will be lost */
-
 import groovy.xml.*;
-
 
 public class AddUsersToRepositoriesXml{
     
@@ -14,11 +12,8 @@ public class AddUsersToRepositoriesXml{
             }
             println ""
         }    
-        
-
 
     public String writeXML(reposMap, xmlFileContent){
-        
         def xmlParsed = new XmlSlurper(false, true).parseText( xmlFileContent )
         println "reposMap----»"+reposMap
         xmlParsed.repositories.repository.each(){
