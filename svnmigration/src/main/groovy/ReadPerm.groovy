@@ -1,13 +1,23 @@
+
+import java.text.ParseException
+
 public class ReadPerm {
     
+    /* correspondance */
+    static Map permissionMatching = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
+    
+    static String MESSAGE = "The input file '$path' should be with this pattern :\nreponame_RW:user1,user2,user3,\n   "
+    
+    
     String permFileContent;
-    Map repoMap = [:]
+    Map permissionMap = [:]
+    String path
     
-    def permMap = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
+    public ReadPerm(String path){
+        this.path=path
+    }
     
-    
-    
-    public void read(String path){
+    public void read(){
         permFileContent = new File(path).text
     }
     
@@ -19,7 +29,7 @@ public class ReadPerm {
     public void parse(){
         
         permFileContent.each {
-            repoMap + (composeMap(parseLine(it)))
+            permissionMap + (composeMap(parseLine(it)))
         }
         
     }
@@ -27,13 +37,20 @@ public class ReadPerm {
      * Reads a line fromm a string, ttranformm it into an arrayList
      *
      */  
-    public parseLine(def line){
+    public parseLine(def line) throws ParseException {
         def equalsSign=line.indexOf('=')
+        if(!equalsSign>0){
+            throw ParseException("Equals Sign missing.\n " + MESSAGE)
+        }
         def left=line.substring(0, equalsSign)
         def right=line.substring(equalsSign+1,line.length())
         
         /* parse left part */
         def underscoreSign = left.indexOf('_')
+                if(!equalsSign>0){
+            throw ParseException("Underscore Sign missing.\n " + MESSAGE)
+        }
+
         def repoName = left.substring(0, underscoreSign)
         def permString = left.substring( underscoreSign+1, left.length())
         
@@ -41,7 +58,11 @@ public class ReadPerm {
         
         def userList = right.tokenize(',')
         
-        return [ repoName, permMap[permString], userList ]
+        if(userList.size()){
+            throw ParseException("User list missing.\n " + MESSAGE)
+        }
+        
+        return [ repoName, permissionMatching[permString], userList ]
         
     }
     /**
@@ -53,13 +74,18 @@ public class ReadPerm {
         Map result = [:]
         
         def repoName = line[0]
-        def permMap = [:]
+        def permissionMatching = [:]
         line[2].each { user ->
-            permMap[user]=line[1]
+            permissionMatching[user]=line[1]
         }
-        result[repoName]=permMap
+        result[repoName]=permissionMatching
         
         return result
+    }
+
+    /* To get the result after Parsing */
+    public Map getPermissionMap(){
+        return permissionMap;
     }
     
 }

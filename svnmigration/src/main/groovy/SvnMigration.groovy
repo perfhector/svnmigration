@@ -26,7 +26,7 @@ class SvnMigration {
             // teste existance fichier
             def inputFile=new File( inputPath )
             if(!inputFile.exists()){
-                throw new IOException("File : '$inputFile' doesn't exist")
+                throw new FileNotFoundException("File : '$inputFile' doesn't exist")
             }
         }    
         if (options.o) {  
@@ -34,12 +34,19 @@ class SvnMigration {
             // teste existance fichier
             def outputFile=new File( outputPath )
             if(!outputFile.exists()){
-                throw new IOException("File : '$outputFile' doesn't exist")
+                throw new FileNotFoundException("File : '$outputFile' doesn't exist")
             }
-        }        
+        }
+        
+        //run(options.i,option.o)
     }    
-    def usage(){
-        println "java SvnMigration -i /path/to/inputFile -o /path/to/outputfile"
+    def run(String inputPath, String outputPath){
+        ReadPerm readperm = new ReadPerm();
+        readperm.read(inputPath);
+        AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersTorepositoriesXml()
+        addUsersToRepositoriesXml.writeXML(readperm.getPermissionMap(),new File(outputPath).text)
     }
+    
+    
     
 }
