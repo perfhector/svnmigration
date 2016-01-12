@@ -1,3 +1,5 @@
+package svnmigration;
+
 import groovy.util.CliBuilder
 
 class SvnMigration {
@@ -43,7 +45,7 @@ class SvnMigration {
     def run(String inputPath, String outputPath){
         ReadPerm readperm = new ReadPerm();
         readperm.read(inputPath);
-        AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersTorepositoriesXml()
+        AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersToRepositoriesXml()
         addUsersToRepositoriesXml.writeXML(readperm.getPermissionMap(),new File(outputPath).text)
     }
     

@@ -1,9 +1,11 @@
+
 /**
  *
  * @author Cedric Levasseur <celevasseur@fr.imshealth.com>
  */
 
 import groovy.xml.*
+import svnmigration.*
 
 class AddUsersToRepositoriesXmlTest extends GroovyTestCase {
     

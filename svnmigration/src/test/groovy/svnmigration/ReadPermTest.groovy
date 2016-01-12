@@ -1,5 +1,6 @@
 
 import java.text.ParseException
+import svnmigration.*
 
 public class ReadPermTest extends GroovyTestCase {
     

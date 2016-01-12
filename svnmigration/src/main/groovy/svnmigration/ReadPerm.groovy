@@ -1,3 +1,5 @@
+package svnmigration;
+
 
 import java.text.ParseException
 
@@ -6,12 +8,15 @@ public class ReadPerm {
     /* correspondance */
     static Map permissionMatching = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
     
-    static String MESSAGE = "The input file '$path' should be with this pattern :\nreponame_RW:user1,user2,user3,\n   "
+    static GString MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW:user1,user2,user3,\n   "
     
     
     String permFileContent;
     Map permissionMap = [:]
     String path
+
+    public ReadPerm(){
+    }
     
     public ReadPerm(String path){
         this.path=path
@@ -40,7 +45,7 @@ public class ReadPerm {
     public parseLine(def line) throws ParseException {
         def equalsSign=line.indexOf('=')
         if(!equalsSign>0){
-            throw ParseException("Equals Sign missing.\n " + MESSAGE)
+            throw ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path))
         }
         def left=line.substring(0, equalsSign)
         def right=line.substring(equalsSign+1,line.length())
@@ -48,7 +53,7 @@ public class ReadPerm {
         /* parse left part */
         def underscoreSign = left.indexOf('_')
                 if(!equalsSign>0){
-            throw ParseException("Underscore Sign missing.\n " + MESSAGE)
+            throw ParseException("Underscore Sign missing.\n " + MESSAGE.replaceAll("%1",path))
         }
 
         def repoName = left.substring(0, underscoreSign)
@@ -59,7 +64,7 @@ public class ReadPerm {
         def userList = right.tokenize(',')
         
         if(userList.size()){
-            throw ParseException("User list missing.\n " + MESSAGE)
+            throw ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path))
         }
         
         return [ repoName, permissionMatching[permString], userList ]

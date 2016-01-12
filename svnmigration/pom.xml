@@ -55,6 +55,9 @@
                     <includes>
                         <include>**/*Test.*</include>
                         <include>**/*Spec.*</include>
+                        <include>%regex[.*Spec.*]</include>
+                        <include>**/*.class</include>
+                        
                     </includes>
                 </configuration>
             </plugin>
@@ -66,6 +69,7 @@
         <executions>
           <execution>
             <goals>
+            
               <goal>exec</goal>
             </goals>
           </execution>

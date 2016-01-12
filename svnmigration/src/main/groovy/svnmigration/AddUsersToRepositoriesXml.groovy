@@ -1,3 +1,4 @@
+package svnmigration;
 /* be aware it rewrites the whole xml file will be lost */
 import groovy.xml.*;
 
