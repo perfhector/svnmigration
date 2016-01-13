@@ -44,8 +44,11 @@ class SvnMigration {
     }    
     def run(String inputPath, String outputPath){
         ReadPerm readperm = new ReadPerm();
-        readperm.read(inputPath);
+        readperm.setPath(inputPath);
+        readperm.read()
+        
         AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersToRepositoriesXml()
+        addUsersToRepositoriesXml.backUp(outputPath)
         addUsersToRepositoriesXml.writeXML(readperm.getPermissionMap(),new File(outputPath).text)
     }
     

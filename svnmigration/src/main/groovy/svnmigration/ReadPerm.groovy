@@ -6,23 +6,19 @@ import java.text.ParseException
 public class ReadPerm {
     
     /* correspondance */
-    static Map permissionMatching = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
+    Map permissionMatching = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
     
-    static GString MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW:user1,user2,user3,\n   "
+    String MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW:user1,user2,user3,\n   "
     
     
     String permFileContent;
     Map permissionMap = [:]
     String path
 
-    public ReadPerm(){
-    }
-    
-    public ReadPerm(String path){
-        this.path=path
-    }
+
     
     public void read(){
+        assert(path!="")
         permFileContent = new File(path).text
     }
     
@@ -44,7 +40,7 @@ public class ReadPerm {
      */  
     public parseLine(def line) throws ParseException {
         def equalsSign=line.indexOf('=')
-        if(!equalsSign>0){
+        if(equalsSign<=0){
             throw ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path))
         }
         def left=line.substring(0, equalsSign)
@@ -52,7 +48,7 @@ public class ReadPerm {
         
         /* parse left part */
         def underscoreSign = left.indexOf('_')
-                if(!equalsSign>0){
+                if(equalsSign<=0){
             throw ParseException("Underscore Sign missing.\n " + MESSAGE.replaceAll("%1",path))
         }
 
@@ -63,7 +59,7 @@ public class ReadPerm {
         
         def userList = right.tokenize(',')
         
-        if(userList.size()){
+        if(userList.size()<1){
             throw ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path))
         }
         
@@ -93,4 +89,7 @@ public class ReadPerm {
         return permissionMap;
     }
     
+    public void setPath(String path){
+        this.path=path
+    }
 }

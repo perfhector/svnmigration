@@ -1,6 +1,8 @@
 package svnmigration;
+
 /* be aware it rewrites the whole xml file will be lost */
 import groovy.xml.*;
+import java.nio.file.Path
 
 public class AddUsersToRepositoriesXml{
     
@@ -34,4 +36,10 @@ public class AddUsersToRepositoriesXml{
             }  
             return XmlUtil.serialize(xmlParsed)        
     }    
+    def backUp(String path){
+        Path source = Paths.get(path);
+        Path target = Paths.get(path+".bak");
+        Files.copy(source, target)
+    }
+    
 }

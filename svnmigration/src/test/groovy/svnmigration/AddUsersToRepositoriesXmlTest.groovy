@@ -1,4 +1,4 @@
-
+package svnmigration;
 /**
  *
  * @author Cedric Levasseur <celevasseur@fr.imshealth.com>
@@ -48,4 +48,10 @@ class AddUsersToRepositoriesXmlTest extends GroovyTestCase {
         clazz.listRepoFromXML(xmlContent);
         assertTrue(true)
     }
+    
+       public void testToto(){
+           ReadPerm r = new ReadPerm();
+           r.setPath('toto')
+           assertTrue(true)
+       }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchemainstance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.cedriclevasseur.scmmanager</groupId>
+    <groupId>svnmigration</groupId>
     <artifactId>svnmigration</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -34,6 +34,34 @@
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <version>1.0</version>
+                  <!--<configuration>
+                    <sources>
+                      <fileset>
+                        <directory>${pom.basedir}/src/test/java</directory>
+                        <includes>
+                          <include>**/*.java</include>
+                        </includes>
+                      </fileset>
+                      <fileset>
+                        <directory>${pom.basedir}/src/main/java</directory>
+                        <includes>
+                          <include>**/*.java</include>
+                        </includes>
+                      </fileset>
+                      <fileset>
+                        <directory>${pom.basedir}/src/main/groovy</directory>
+                        <includes>
+                          <include>**/*.groovy</include>
+                        </includes>
+                      </fileset>
+                      <fileset>
+                        <directory>${pom.basedir}/src/test/groovy</directory>
+                        <includes>
+                          <include>**/*.groovy</include>
+                        </includes>
+                      </fileset>
+                    </sources>
+                  </configuration>-->
                 <executions>
                     <execution>
                         <goals>
@@ -57,6 +85,7 @@
                         <include>**/*Spec.*</include>
                         <include>%regex[.*Spec.*]</include>
                         <include>**/*.class</include>
+                        <include>**/*.groovy</include>
                         
                     </includes>
                 </configuration>
