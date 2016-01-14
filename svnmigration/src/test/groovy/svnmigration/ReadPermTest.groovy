@@ -23,7 +23,8 @@ public class ReadPermTest extends GroovyTestCase {
             ReadPerm readPerm = new ReadPerm();
             def lineAsMap = readPerm.parseLine(line);
         }catch(ParseException pe){
-            assertTrue(pe.getMessage().contains."Equal")
+            assertTrue(pe.getMessage().indexOf("Equal")>-1)
+            return
         }
         fail("A ParseException should have been thrown")
         
@@ -37,7 +38,8 @@ public class ReadPermTest extends GroovyTestCase {
             ReadPerm readPerm = new ReadPerm();
             def lineAsMap = readPerm.parseLine(line);
         }catch(ParseException pe){
-            assertTrue(pe.getMessage().contains."Underscore")
+            assertTrue(pe.getMessage().indexOf("Underscore")>-1)
+            return
         }
         fail("A ParseException should have been thrown")
         
@@ -51,7 +53,8 @@ public class ReadPermTest extends GroovyTestCase {
             ReadPerm readPerm = new ReadPerm();
             def lineAsMap = readPerm.parseLine(line);
         }catch(ParseException pe){
-            assertTrue(pe.getMessage().contains."Underscore")
+            assertTrue(pe.getMessage().indexOf("Underscore")>-1)
+            return
         }
         fail("A ParseException should have been thrown")
         

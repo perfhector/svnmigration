@@ -43,7 +43,7 @@ class AddUsersToRepositoriesXmlTest extends GroovyTestCase {
     
     public void testListRepoFromXml(){
         
-        def xmlContent="<?xml version=\"1.0\" ?><repositorydb><repositories><repository><name>repo1</name><permissions><permission><groupPermission>false</groupPermission></permission><name>moi</name><type>OWNER</type></permissions></repository></repositories></repositorydb>"
+        def xmlContent="<?xml version=\"1.0\" ?><repository-db><repositories><repository><name>repo1</name><permissions><permission><groupPermission>false</groupPermission></permission><name>moi</name><type>OWNER</type></permissions></repository></repositories></repository-db>"
         AddUsersToRepositoriesXml clazz  = new AddUsersToRepositoriesXml();
         clazz.listRepoFromXML(xmlContent);
         assertTrue(true)

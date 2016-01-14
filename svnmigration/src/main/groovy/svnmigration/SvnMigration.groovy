@@ -50,6 +50,7 @@ class SvnMigration {
         AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersToRepositoriesXml()
         addUsersToRepositoriesXml.backUp(outputPath)
         addUsersToRepositoriesXml.writeXML(readperm.getPermissionMap(),new File(outputPath).text)
+        println "file $path successfully modified.\n Thanks for using the SvnMigration program."
     }
     
     
