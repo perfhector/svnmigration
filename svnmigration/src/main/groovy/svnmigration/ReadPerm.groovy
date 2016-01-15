@@ -33,6 +33,7 @@ public class ReadPerm {
         permFileContent.each {
             permissionMap + (composeMap(parseLine(it)))
         }
+        println "Permissions to insert = "+permissionMap
         
     }
     /*

@@ -1,8 +1,10 @@
 package svnmigration;
 
 /* be aware it rewrites the whole xml file will be lost */
-import groovy.xml.*;
+import groovy.xml.*
 import java.nio.file.Path
+import java.nio.file.Files
+import java.nio.file.Paths
 
 public class AddUsersToRepositoriesXml{
     
@@ -40,6 +42,7 @@ public class AddUsersToRepositoriesXml{
         Path source = Paths.get(path);
         Path target = Paths.get(path+".bak");
         Files.copy(source, target)
+        println "File $target written"
     }
     
 }
