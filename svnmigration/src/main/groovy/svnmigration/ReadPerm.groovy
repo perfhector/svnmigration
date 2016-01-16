@@ -9,7 +9,7 @@ public class ReadPerm {
     /* correspondance */
     static Map permissionMatching = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
     
-    static String MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW:user1,user2,user3,\n   "
+    static String MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW=user1,user2,user3,\n   "
     
     
     String permFileContent;
@@ -23,6 +23,35 @@ public class ReadPerm {
         permFileContent = new File(path).text
     }
     
+    
+    
+    public Map readAlias(String content){
+        
+        def aliasMap=[:]
+        
+        content.eachLine { line->
+            println "line=$line"
+            def equalsSign=line.indexOf('=')
+            if(equalsSign<=0){
+                throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+            }
+            def left=line.substring(0, equalsSign)
+            def right=line.substring(equalsSign+1,line.length())
+
+           
+        /* parse right part */
+
+            def userList = right.tokenize(',')
+
+            if(userList.size()<1){
+                throw new ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+            }
+
+            aliasMap[left]=userList
+
+        }
+        return aliasMap
+    }
     
     /**
      * parse each line, use map composition 

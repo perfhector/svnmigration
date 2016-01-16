@@ -14,6 +14,30 @@ public class ReadPermTest extends GroovyTestCase {
         assert (lineAsMap  == ['reponame', 'WRITE', ['user1', 'user2', 'user3']])
         
     }
+    public void te_stSubstiteAlias(){
+        def line1="reponame_RW=user1,user2,user3,"
+        def line2="reponame_R=@reponame_RW"
+        
+        
+        ReadPerm readPerm = new ReadPerm();
+        def lineAsMap = readPerm.parseLine(line);
+        
+        assert (lineAsMap  == ['reponame', 'WRITE', ['user1', 'user2', 'user3']])
+        
+    }
+    
+    public void testReadAlias(){
+        
+        String content="reponame_RW=user1,user2,user3"+System.getProperty("line.separator")+"reponame_R=@reponame_RW,"
+        
+        
+        ReadPerm readPerm = new ReadPerm();
+        def aliasMap = readPerm.readAlias(content);
+        
+        assert (aliasMap['reponame_RW']  ==  ['user1', 'user2', 'user3'])
+        
+        
+    }
     
     public void testReadLineFail1(){
         // : instead of =
