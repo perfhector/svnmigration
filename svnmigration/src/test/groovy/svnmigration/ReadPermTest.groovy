@@ -42,7 +42,7 @@ def f2=new File(f.absolutePath)
        assert(result== ["user1","user2","user3","user4"])
     }
     
-    public void testReadAlias(){
+    public void test_ReadAlias(){
         
         String content="reponame_RW=user1,user2,user3"+System.getProperty("line.separator")+"reponame_R=@reponame_RW,"
         

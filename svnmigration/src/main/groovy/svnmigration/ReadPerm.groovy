@@ -9,7 +9,7 @@ public class ReadPerm {
     /* correspondance */
     static Map permissionMatching = [ 'R' : 'READ', 'RW' : 'WRITE' , 'ADM' : 'OWNER']
     
-    static String MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW=user1,user2,user3,\n   "
+    static String MESSAGE = "The input file '%1' should be with this pattern : reponame_RW=user1,user2,user3, instead of : %2  "
     
     
     def permFileContent;
@@ -33,7 +33,7 @@ public class ReadPerm {
         content.each { line->
             def equalsSign=line.indexOf('=')
             if(equalsSign<=0){
-                throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+                throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
             }
             def left=line.substring(0, equalsSign)
             def right=line.substring(equalsSign+1,line.length())
@@ -44,7 +44,7 @@ public class ReadPerm {
             def userList = right.tokenize(',')
 
             if(userList.size()<1){
-                throw new ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+                throw new ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
             }
 
             aliasMap[left]=userList
@@ -77,7 +77,7 @@ public class ReadPerm {
     public parseLine(def line) throws ParseException {
         def equalsSign=line.indexOf('=')
         if(equalsSign<=0){
-            throw new ParseException(line+"Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+            throw new ParseException(line+"Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
         }
         def left=line.substring(0, equalsSign)
         def right=line.substring(equalsSign+1,line.length())
@@ -85,7 +85,7 @@ public class ReadPerm {
         /* parse left part */
         def underscoreSign = left.indexOf('_')
         if(underscoreSign<=0){
-            throw new ParseException("Underscore Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+            throw new ParseException("Underscore Sign missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
         }
 
         def repoName = left.substring(0, underscoreSign)
@@ -96,7 +96,7 @@ public class ReadPerm {
         def userList = right.tokenize(',')
         
         if(userList.size()<1){
-            throw new ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+            throw new ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
         }
         
         def userList2 = substituteAlias(userList,aliasMap)
