@@ -12,8 +12,9 @@ public class ReadPerm {
     static String MESSAGE = "The input file '%1' should be with this pattern :\nreponame_RW=user1,user2,user3,\n   "
     
     
-    String permFileContent;
+    def permFileContent;
     Map permissionMap = [:]
+    Map aliasMap = [:]
     String path
 
 
@@ -29,8 +30,7 @@ public class ReadPerm {
         
         def aliasMap=[:]
         
-        content.eachLine { line->
-            println "line=$line"
+        content.each { line->
             def equalsSign=line.indexOf('=')
             if(equalsSign<=0){
                 throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
@@ -39,7 +39,7 @@ public class ReadPerm {
             def right=line.substring(equalsSign+1,line.length())
 
            
-        /* parse right part */
+            /* parse right part */
 
             def userList = right.tokenize(',')
 
@@ -53,12 +53,17 @@ public class ReadPerm {
         return aliasMap
     }
     
+    
+    
+    
     /**
      * parse each line, use map composition 
      *
      */
     public void parse(){
         
+        aliasMap=readAlias(permFileContent)
+        println "aliasMap=$aliasMap"
         permFileContent.each {
             permissionMap + (composeMap(parseLine(it)))
         }
@@ -72,7 +77,7 @@ public class ReadPerm {
     public parseLine(def line) throws ParseException {
         def equalsSign=line.indexOf('=')
         if(equalsSign<=0){
-            throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
+            throw new ParseException(line+"Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
         }
         def left=line.substring(0, equalsSign)
         def right=line.substring(equalsSign+1,line.length())
@@ -94,7 +99,9 @@ public class ReadPerm {
             throw new ParseException("User list missing.\n " + MESSAGE.replaceAll("%1",path?:''),line.length())
         }
         
-        return [ repoName, permissionMatching[permString], userList ]
+        def userList2 = substituteAlias(userList,aliasMap)
+        
+        return [ repoName, permissionMatching[permString], userList2 ]
         
     }
     /**
@@ -114,6 +121,19 @@ public class ReadPerm {
         
         return result
     }
+    
+    public List substituteAlias(List userList,Map aliasMap) {
+        def result=[]
+        userList.each(){ user -> 
+            if(user.startsWith("@")){
+                result.addAll(aliasMap[user.replaceAll('@','')])
+            }else{
+                result.add(user)
+            }
+        }
+        
+        return result
+    }
 
     /* To get the result after Parsing */
     public Map getPermissionMap(){
@@ -123,4 +143,8 @@ public class ReadPerm {
     public void setPath(String path){
         this.path=path
     }
+    public void setPermFileContent(def permFileContent){
+        this.permFileContent=permFileContent
+    }
+    
 }

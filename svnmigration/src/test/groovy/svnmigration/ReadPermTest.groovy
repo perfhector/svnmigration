@@ -14,16 +14,32 @@ public class ReadPermTest extends GroovyTestCase {
         assert (lineAsMap  == ['reponame', 'WRITE', ['user1', 'user2', 'user3']])
         
     }
-    public void te_stSubstiteAlias(){
-        def line1="reponame_RW=user1,user2,user3,"
-        def line2="reponame_R=@reponame_RW"
-        
+    public void te_stSubstiteAlias2(){
+        def content="""reponame_RW=user1,user2,user3,
+reponame_R=@reponame_RW
+"""
+
+def f=File.createTempFile("temp",".tmp")
+f.write(content)
+def f2=new File(f.absolutePath)
+
         
         ReadPerm readPerm = new ReadPerm();
-        def lineAsMap = readPerm.parseLine(line);
+        readPerm.setPermFileContent(f2.text)
+        def lineAsMap = readPerm.parse();
         
+        
+        println "---------------->"+lineAsMap
         assert (lineAsMap  == ['reponame', 'WRITE', ['user1', 'user2', 'user3']])
         
+    }
+    
+    public void testSustituteAlias(){
+       def userList = ["user1","user2","@useralias"]
+       def aliasMap = ["useralias" : ["user3", "user4"]]
+       ReadPerm readPerm = new ReadPerm();
+       def result = readPerm.substituteAlias(userList, aliasMap);
+       assert(result== ["user1","user2","user3","user4"])
     }
     
     public void testReadAlias(){
@@ -35,9 +51,13 @@ public class ReadPermTest extends GroovyTestCase {
         def aliasMap = readPerm.readAlias(content);
         
         assert (aliasMap['reponame_RW']  ==  ['user1', 'user2', 'user3'])
-        
-        
+        println aliasMap
+    
     }
+    
+    
+    
+    
     
     public void testReadLineFail1(){
         // : instead of =
@@ -85,11 +105,9 @@ public class ReadPermTest extends GroovyTestCase {
     }
 
     
-    public void testCompose(){
+    public void testComposeMap(){
         ReadPerm readPerm = new ReadPerm();
         def result = readPerm.composeMap(['reponame', 'WRITE', ['user1', 'user2', 'user3']]);
-        
-       
         assertNotNull( result )
         assertEquals (['reponame':['user1':'WRITE', 'user2':'WRITE', 'user3':'WRITE']],result)
 
