@@ -25,7 +25,7 @@ public class ReadPerm {
     }
     
     
-    public Map whichNumberLineToRead(String content){
+    public Map whichNumberLineToRead(def content){
         def nbLine=0
         content.each {
             nbLine++
@@ -34,7 +34,7 @@ public class ReadPerm {
     }
     
     
-    public Map readAlias(String content){
+    public Map readAlias(def content){
         
         def aliasMap=[:]
         
