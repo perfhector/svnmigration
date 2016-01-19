@@ -21,13 +21,13 @@ public class ReadPerm {
     
     public void read(){
         assert(path!="")
-        permFileContent = new File(path).text
+        permFileContent = new File(path).readLines()
     }
     
     
     public Map whichNumberLineToRead(String content){
         def nbLine=0
-        content.eachLine {
+        content.each {
             nbLine++
         }
         println "$path : $nbLine to read"
@@ -38,7 +38,7 @@ public class ReadPerm {
         
         def aliasMap=[:]
         
-        content.eachLine { line->
+        content.each { line->
             def equalsSign=line.indexOf('=')
             if(equalsSign<=0){
                 throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
