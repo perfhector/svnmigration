@@ -18,7 +18,7 @@ public class AddUsersToRepositoriesXml{
             println ""
         }    
 
-    public String writeXML(reposMap, xmlFileContent){
+    public String writeXML(def reposMap, def xmlFileContent){
         def xmlParsed = new XmlSlurper(false, true).parseText( xmlFileContent )
         println "reposMap----»"+reposMap
         xmlParsed.repositories.repository.each(){

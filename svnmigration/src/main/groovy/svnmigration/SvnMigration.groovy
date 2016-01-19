@@ -49,13 +49,17 @@ class SvnMigration {
         readperm.whichNumberLineToRead()
         readperm.read()
         readperm.parse()
+        println "readperm.permissionMap.size ="+readperm.permissionMap.size 
         
         AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersToRepositoriesXml()
         def outputFileContent = new File(outputPath).text
         
         addUsersToRepositoriesXml.listRepoFromXML(outputFileContent)
         addUsersToRepositoriesXml.backUp(outputPath)
-        addUsersToRepositoriesXml.writeXML(readperm.getPermissionMap(),outputFileContent)
+        
+        
+        
+        addUsersToRepositoriesXml.writeXML(readperm.permissionMap,outputFileContent)
         println "file $outputPath successfully modified.\n Thanks for using the SvnMigration program."
     
     }
