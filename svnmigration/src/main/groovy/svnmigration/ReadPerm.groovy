@@ -12,7 +12,7 @@ public class ReadPerm {
     static String MESSAGE = "The input file '%1' should be with this pattern : reponame_RW=user1,user2,user3, instead of : %2  "
     
     
-    def permFileContent;
+    String permFileContent;
     Map permissionMap = [:]
     Map aliasMap = [:]
     String path
@@ -24,6 +24,14 @@ public class ReadPerm {
         permFileContent = new File(path).text
     }
     
+    
+    public Map whichNumberLineToRead(String content){
+        def nbLine=0
+        content.each{
+            nbLine++
+        }
+        println "$path : $nbLine to read"
+    }
     
     
     public Map readAlias(String content){
