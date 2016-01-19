@@ -134,7 +134,12 @@ public class ReadPerm {
         def result=[]
         userList.each(){ user -> 
             if(user.startsWith("@")){
-                result.addAll(aliasMap[user.replaceAll('@','')])
+                if(aliasMap[user.replaceAll('@','')]!=null){
+                    result.addAll(aliasMap[user.replaceAll('@','')])
+                }else{
+                    println "WARNING : alias not found for $user"
+                }
+                    
             }else{
                 result.add(user)
             }
