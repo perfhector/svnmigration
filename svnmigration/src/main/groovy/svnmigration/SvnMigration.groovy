@@ -46,6 +46,7 @@ class SvnMigration {
         println "Running... "
         ReadPerm readperm = new ReadPerm();
         readperm.setPath(inputPath);
+        readperm.whichNumberLineToRead()
         readperm.read()
         readperm.parse()
         
