@@ -73,7 +73,7 @@ public class ReadPerm {
         aliasMap=readAlias(permFileContent)
         println "aliasMap=$aliasMap"
         permFileContent.each {
-            permissionMap.addAll(composeMap(parseLine(it)))
+            permissionMap.putAll(composeMap(parseLine(it)))
         }
         println "Permissions to insert = "+permissionMap
         
