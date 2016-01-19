@@ -12,7 +12,7 @@ public class ReadPerm {
     static String MESSAGE = "The input file '%1' should be with this pattern : reponame_RW=user1,user2,user3, instead of : %2  "
     
     
-    String permFileContent;
+    def permFileContent;
     Map permissionMap = [:]
     Map aliasMap = [:]
     String path
@@ -27,7 +27,7 @@ public class ReadPerm {
     
     public Map whichNumberLineToRead(String content){
         def nbLine=0
-        content.each{
+        content.eachLine {
             nbLine++
         }
         println "$path : $nbLine to read"
@@ -38,7 +38,7 @@ public class ReadPerm {
         
         def aliasMap=[:]
         
-        content.each { line->
+        content.eachLine { line->
             def equalsSign=line.indexOf('=')
             if(equalsSign<=0){
                 throw new ParseException("Equals Sign missing.\n " + MESSAGE.replaceAll("%1",path?:'').replaceAll("%2",line?:''),line.length())
