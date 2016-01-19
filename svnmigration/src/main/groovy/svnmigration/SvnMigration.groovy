@@ -47,6 +47,7 @@ class SvnMigration {
         ReadPerm readperm = new ReadPerm();
         readperm.setPath(inputPath);
         readperm.read()
+        readperm.parse()
         
         AddUsersToRepositoriesXml addUsersToRepositoriesXml = new AddUsersToRepositoriesXml()
         def outputFileContent = new File(outputPath).text
