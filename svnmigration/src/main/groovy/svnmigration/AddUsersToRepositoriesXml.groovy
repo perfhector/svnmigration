@@ -24,7 +24,7 @@ public class AddUsersToRepositoriesXml{
         xmlParsed.repositories.repository.each(){
             String reponame=it.name //converting from a node to a String
             reposMap[reponame].each { k,v ->
-                    println "inserting xml for $reponame : $k $v"
+                    
                     def fragmentToAdd =   { 
                         permission {
                             name(k)
@@ -33,6 +33,11 @@ public class AddUsersToRepositoriesXml{
                         }
                     }
                     def nodeRepo = xmlParsed.repositories.repository.find{ it.name == reponame }
+                    if(nodeRepo!=null){
+                        println "inserting xml for $reponame : $k $v"
+                    }else{
+                        println "fail to insert xml for $reponame : $k $v. xml node not found for $reponame."
+                    }
                     nodeRepo.permissions.appendNode( fragmentToAdd )
                 }
             }  
