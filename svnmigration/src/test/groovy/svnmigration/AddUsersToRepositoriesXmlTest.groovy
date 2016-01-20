@@ -14,7 +14,7 @@ class AddUsersToRepositoriesXmlTest extends GroovyTestCase {
         assertTrue(true)
     }
 
-    public void testWriteXML(){
+    public void testGenerateXML(){
 
         //def reposMap =  ['repo1':['false','user','READ']]
         def reposMap =['repo1':['user1':'WRITE', 'user2':'WRITE', 'user3':'WRITE']]
@@ -22,7 +22,7 @@ class AddUsersToRepositoriesXmlTest extends GroovyTestCase {
         def xmlContent="<?xml version=\"1.0\" ?><repository-db><repositories><repository><name>repo1</name><permissions><permission><groupPermission>false</groupPermission></permission><name>moi</name><type>OWNER</type></permissions></repository><repository><name>repo2</name><permissions><permission><groupPermission>false</groupPermission></permission><name>moi</name><type>OWNER</type></permissions></repository></repositories></repository-db>"
         
         AddUsersToRepositoriesXml clazz  = new AddUsersToRepositoriesXml();
-        def result = clazz.writeXML(reposMap, xmlContent);
+        def result = clazz.generateXML(reposMap, xmlContent);
 
         println result
        
@@ -55,3 +55,4 @@ class AddUsersToRepositoriesXmlTest extends GroovyTestCase {
            assertTrue(true)
        }
 }
+
