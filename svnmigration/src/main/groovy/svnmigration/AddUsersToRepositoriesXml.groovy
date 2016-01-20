@@ -18,7 +18,7 @@ public class AddUsersToRepositoriesXml{
             println ""
         }    
 
-    public String writeXML(def reposMap, def xmlFileContent){
+    public String generateXML(def reposMap, def xmlFileContent){
         def xmlParsed = new XmlSlurper(false, true).parseText( xmlFileContent )
         println "reposMap----»"+reposMap
         xmlParsed.repositories.repository.each(){
@@ -42,7 +42,15 @@ public class AddUsersToRepositoriesXml{
                 }
             }  
             return XmlUtil.serialize(xmlParsed)        
-    }    
+    }  
+    
+    def writeXml(String xml, String path){
+        assert(path!=null)
+        PrintWriter pw = new PrintWriter(path)
+        pw.write(xml)
+        pw.close()  
+    }
+    
     def backUp(String path){
         Path source = Paths.get(path);
         Path target = Paths.get(path+".bak");
