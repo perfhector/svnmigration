@@ -44,7 +44,7 @@ public class AddUsersToRepositoriesXml{
             return XmlUtil.serialize(xmlParsed)        
     }  
     
-    def writeXml(String xml, String path){
+    def writeXML(String xml, String path){
         assert(path!=null)
         PrintWriter pw = new PrintWriter(path)
         pw.write(xml)

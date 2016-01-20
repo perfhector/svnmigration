@@ -60,9 +60,6 @@ class SvnMigration {
         
         
         def xml=addUsersToRepositoriesXml.generateXML(readperm.permissionMap,outputFileContent)
-        println "***********************************"
-        println xml
-        println "***********************************"
         addUsersToRepositoriesXml.writeXML(xml,outputPath)
         println "file $outputPath successfully modified.\n Thanks for using the SvnMigration program."
     
