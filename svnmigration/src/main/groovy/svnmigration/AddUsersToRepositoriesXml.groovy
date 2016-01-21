@@ -26,7 +26,7 @@ public class AddUsersToRepositoriesXml{
             reposMap[reponame].each { k,v ->
                     
                     def fragmentToAdd =   { 
-                        permission {
+                        permissions {
                             name(k)
                             groupPermission("false")
                             type(v)
@@ -38,7 +38,7 @@ public class AddUsersToRepositoriesXml{
                     }else{
                         println "fail to insert xml for $reponame : $k $v. xml node not found for $reponame."
                     }
-                    nodeRepo.permissions.appendNode( fragmentToAdd )
+                    nodeRepo.appendNode( fragmentToAdd )
                 }
             }  
             return XmlUtil.serialize(xmlParsed)        
